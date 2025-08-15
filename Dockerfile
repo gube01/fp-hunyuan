@@ -1,5 +1,10 @@
-# Use RunPod's PyTorch base image with CUDA support
-FROM runpod/pytorch:2.1.0-py3.10-cuda12.1.1-devel
+# Use a stable PyTorch base image with CUDA support
+# Option 1: Use official PyTorch image (most reliable)
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-devel
+
+# Option 2: If you prefer RunPod's image, try these alternatives:
+# FROM runpod/pytorch:2.2.0-py3.10-cuda12.1.1-devel-ubuntu22.04
+# FROM runpod/base:0.4.0-cuda12.1.1
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
