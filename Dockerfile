@@ -70,7 +70,7 @@ def download_models():\n\
         \n\
         print("\\n2. Downloading HunyuanVideo pipeline...")\n\
         pipeline = HunyuanVideoPipeline.from_pretrained(\n\
-            "tencent/HunyuanVideo",\n\
+            "Tencent-Hunyuan/HunyuanDiT",\n\
             torch_dtype=torch.float16,\n\
             cache_dir="/app/models"\n\
         )\n\
