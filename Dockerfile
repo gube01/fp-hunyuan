@@ -46,51 +46,30 @@ RUN pip install \
 
 # Pre-download the HunyuanVideo models
 RUN echo "Starting model download process..." && \
-    python -c "
-import os
-import torch
-from diffusers import HunyuanVideoPipeline
-from transformers import AutoTokenizer, AutoModel
-
-print('=' * 50)
-print('STARTING MODEL DOWNLOAD')
-print('This may take 15-30 minutes depending on connection speed')
-print('=' * 50)
-
-try:
-    # Download main HunyuanVideo pipeline
-    print('Downloading HunyuanVideo pipeline...')
-    pipeline = HunyuanVideoPipeline.from_pretrained(
-        'tencent/HunyuanVideo',
-        torch_dtype=torch.float16,
-        cache_dir='/app/models'
-    )
-    print('✓ HunyuanVideo pipeline downloaded successfully')
-    
-    # Download text encoder separately to ensure it's cached
-    print('Downloading text encoder...')
-    tokenizer = AutoTokenizer.from_pretrained(
-        'lllyasviel/llava-llama-3-8b-text-encoder-tokenizer',
-        cache_dir='/app/models'
-    )
-    print('✓ Text encoder downloaded successfully')
-    
-    # Download VAE if needed separately
-    print('Downloading VAE...')
-    from diffusers import AutoencoderKLHunyuanVideo
-    vae = AutoencoderKLHunyuanVideo.from_pretrained(
-        'tencent/HunyuanVideo', 
-        subfolder='vae',
-        torch_dtype=torch.float16,
-        cache_dir='/app/models'
-    )
-    print('✓ VAE downloaded successfully')
-    
-    print('All models downloaded and cached successfully!')
-    
-except Exception as e:
-    print(f'Error downloading models: {e}')
-    print('Models may need to be downloaded at runtime')
+    python -c "\
+import os; \
+import torch; \
+from diffusers import HunyuanVideoPipeline; \
+from transformers import AutoTokenizer; \
+print('=' * 50); \
+print('STARTING MODEL DOWNLOAD'); \
+print('This may take 15-30 minutes depending on connection speed'); \
+print('=' * 50); \
+try: \
+    print('Downloading HunyuanVideo pipeline...'); \
+    pipeline = HunyuanVideoPipeline.from_pretrained('tencent/HunyuanVideo', torch_dtype=torch.float16, cache_dir='/app/models'); \
+    print('✓ HunyuanVideo pipeline downloaded successfully'); \
+    print('Downloading text encoder...'); \
+    tokenizer = AutoTokenizer.from_pretrained('lllyasviel/llava-llama-3-8b-text-encoder-tokenizer', cache_dir='/app/models'); \
+    print('✓ Text encoder downloaded successfully'); \
+    from diffusers import AutoencoderKLHunyuanVideo; \
+    print('Downloading VAE...'); \
+    vae = AutoencoderKLHunyuanVideo.from_pretrained('tencent/HunyuanVideo', subfolder='vae', torch_dtype=torch.float16, cache_dir='/app/models'); \
+    print('✓ VAE downloaded successfully'); \
+    print('All models downloaded and cached successfully!'); \
+except Exception as e: \
+    print(f'Error downloading models: {e}'); \
+    print('Models may need to be downloaded at runtime'); \
 "
 
 # Create a startup script
